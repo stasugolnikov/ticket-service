@@ -1,14 +1,26 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 
 <head>
-    <link rel="shortcut icon" href="../img/img.png"> </link>
-
+    <link rel="shortcut icon" href="../img/img.png"></link>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <div th:replace="/fragments/header :: header"></div>
 </head>
 
 <body>
+<script type="text/javascript">
+    const socket = new SockJS('/websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log(frame);
+        stompClient.subscribe('/topic/change-price', function (message) {
+            alert(message.body)
+        });
+    });
+</script>
 
 <div th:replace="/fragments/header :: navbar"></div>
 
